@@ -42,7 +42,7 @@ public class UserService {
                 .build();
 
         emailAuthRepository.save(emailAuth);
-        emailService.sendMail(emailAddress, authToken);
+//        emailService.sendMail(emailAddress, authToken);
         return user;
     }
 

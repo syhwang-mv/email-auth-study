@@ -17,8 +17,8 @@ public class EmailAuth {
 
     private static final Long EMAIL_AUTH_EXPIRE_TIME = 3L; // 이메일 인증 유효기간 3분
 
-    private String email;
     @Id
+    private String email;
     private String authToken;
     private Boolean expired;
     private LocalDateTime expireDate;
