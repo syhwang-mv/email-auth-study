@@ -40,17 +40,17 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @GetMapping("/email-verify")
-//    public ResponseEntity<HashMap> emailVerify(@RequestParam String email, @RequestParam String authToken) {
-//
-//        log.info("[메일인증] email = {}, authToken = {}", email, authToken);
-//
-//        emailService.confirmEmail(authToken, email);
-//
-//        HashMap<String, String> result = new HashMap<>();
-//        result.put("message", "메일 인증이 완료되었습니다.");
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @GetMapping("/email-verify")
+    public ResponseEntity<HashMap> emailVerify(@RequestParam String email, @RequestParam String authToken) {
+
+        log.info("[메일인증] email = {}, authToken = {}", email, authToken);
+
+        emailService.confirmEmail(authToken, email);
+
+        HashMap<String, String> result = new HashMap<>();
+        result.put("message", "메일 인증이 완료되었습니다.");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @PostMapping("/login")
     public void login(String loginId, String password) {

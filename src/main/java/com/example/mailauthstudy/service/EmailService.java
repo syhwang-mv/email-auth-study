@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,11 +23,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @EnableAsync
+@Transactional
 public class EmailService {
 //
 //    private final JavaMailSender sender;
-//    private final EmailAuthRepository emailAuthRepository;
-//    private final UserRepository userRepository;
+    private final EmailAuthRepository emailAuthRepository;
+    private final UserRepository userRepository;
 //
 //    @Async
 //    public void sendMail(String email, String authToken) {
@@ -53,14 +55,14 @@ public class EmailService {
 //
 //    }
 //
-//    public void confirmEmail(String authToken, String email) {
-//        EmailAuth emailAuth = emailAuthRepository.findByEmailAndAuthTokenAndExpireDateAfterAndExpired(email, authToken, LocalDateTime.now(), false)
-//                .orElseThrow(() -> new RuntimeException("유효하지 않은 토큰입니다."));
-//        User user = userRepository.findByEmailAddress(email)
-//                .orElseThrow(() -> new RuntimeException("등록되지 않은 회원입니다"));
-//        user.emailVerifySuccess();
-//        emailAuth.useToken();
-//    }
+    public void confirmEmail(String authToken, String email) {
+        EmailAuth emailAuth = emailAuthRepository.findByEmailAndAuthTokenAndExpireDateAfterAndExpired(email, authToken, LocalDateTime.now(), false)
+                .orElseThrow(() -> new RuntimeException("유효하지 않은 토큰입니다."));
+        User user = userRepository.findByEmailAddress(email)
+                .orElseThrow(() -> new RuntimeException("등록되지 않은 회원입니다"));
+        user.emailVerifySuccess();
+        emailAuth.useToken();
+    }
 
 
 }

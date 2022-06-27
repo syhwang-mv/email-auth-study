@@ -15,9 +15,6 @@ public class EmailSender {
 
     private final AmazonSimpleEmailService amazonSimpleEmailService;
 
-    @Value("${aws.ses.verified.email}")
-    private String from;
-
     public void send(EmailSenderDto senderDto){
 
         if(senderDto.getTo().size() == 0) {
