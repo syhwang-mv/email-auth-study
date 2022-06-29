@@ -1,19 +1,12 @@
 package com.example.mailauthstudy.service;
 
-import com.example.mailauthstudy.dto.EmailSenderDto;
-import com.example.mailauthstudy.entity.EmailAuth;
 import com.example.mailauthstudy.entity.User;
-import com.example.mailauthstudy.repository.EmailAuthRepository;
 import com.example.mailauthstudy.repository.UserRepository;
-import com.example.mailauthstudy.util.EmailSender;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @Service
 @Transactional
@@ -22,8 +15,7 @@ import java.util.*;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final EmailSender emailSender;
-    private final EmailAuthRepository emailAuthRepository;
+    private final EmailService emailService;
 
     public User signUp(String emailAddress, String loginId, String password) {
 //        duplicateEmailCheck(emailAddress);
@@ -31,30 +23,8 @@ public class UserService {
         User user = new User(emailAddress, loginId, password);
         userRepository.save(user);
 
-//        String authToken = UUID.randomUUID().toString();
-        Random rand = new Random();
-        String authToken = String.valueOf(rand.nextInt(888888) + 111111);
+        emailService.sendAuthEmail(user);
 
-        EmailAuth emailAuth = EmailAuth.builder()
-                .email(emailAddress)
-                .authKey(authToken)
-                .build();
-
-        emailAuthRepository.save(emailAuth);
-
-        ArrayList<String> to = new ArrayList<>();
-        to.add(emailAddress);
-
-        String content = "메일 발송 테스트입니다";
-        EmailSenderDto dto = EmailSenderDto.builder()
-                .from("syhwang.mv@movements.kr")
-                .to(to)
-                .subject("회원가입 이메일 인증")
-                .content("인증번호는 " + authToken + "입니다")
-                .build();
-
-        // when
-        emailSender.send(dto);
 
         return user;
     }

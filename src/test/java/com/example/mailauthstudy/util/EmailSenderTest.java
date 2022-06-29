@@ -7,13 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class EmailSenderTest {
 
     @Autowired
-    private EmailSender emailSender;
+    private EmailUtil emailSender;
 
     @Test
     void mailSendTest() throws Exception {
