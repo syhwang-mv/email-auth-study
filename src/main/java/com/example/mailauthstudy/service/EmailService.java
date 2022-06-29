@@ -56,15 +56,16 @@ public class EmailService {
 
         emailUtil.send(dto);
         // redis 에 authToken - user 저장
-        redisUtil.setValueWithExpireTime(authToken, emailAddress, 3L);
+//        redisUtil.setValueWithExpireTime(authToken, emailAddress, 3L);
+        redisUtil.setValueWithExpireTime(emailAddress, authToken, 3L);
 
     }
 
     public void confirmEmail(String authToken, String email) {
 
         // redis 에서 authToken 확인
-        String value = redisUtil.getValue(authToken);
-        if (!value.equals(email)) {
+        String value = redisUtil.getValue(email);
+        if (!value.equals(authToken)) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
         }
 
