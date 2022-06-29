@@ -65,7 +65,7 @@ public class EmailService {
 
         // redis 에서 authToken 확인
         String value = redisUtil.getValue(email);
-        if (!value.equals(authToken)) {
+        if (value == null || !value.equals(authToken)) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
         }
 
