@@ -1,7 +1,6 @@
 package com.example.mailauthstudy.service;
 
 import com.example.mailauthstudy.dto.EmailSenderDto;
-import com.example.mailauthstudy.entity.EmailAuth;
 import com.example.mailauthstudy.entity.User;
 import com.example.mailauthstudy.repository.UserRepository;
 import com.example.mailauthstudy.util.EmailUtil;
@@ -36,13 +35,6 @@ public class EmailService {
         Random rand = new Random();
         String authToken = String.valueOf(rand.nextInt(888888) + 111111);
 
-        EmailAuth emailAuth = EmailAuth.builder()
-                .email(emailAddress)
-                .authKey(authToken)
-                .build();
-
-//        emailAuthRepository.save(emailAuth);
-
         ArrayList<String> to = new ArrayList<>();
         to.add(emailAddress);
 
@@ -55,8 +47,8 @@ public class EmailService {
                 .build();
 
         emailUtil.send(dto);
+
         // redis 에 authToken - user 저장
-//        redisUtil.setValueWithExpireTime(authToken, emailAddress, 3L);
         redisUtil.setValueWithExpireTime(emailAddress, authToken, 3L);
 
     }
